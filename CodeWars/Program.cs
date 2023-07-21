@@ -10,7 +10,7 @@ internal class Program
 {
     private static void Main(string[] args)
     {
-        Console.WriteLine(formatDuration(276836729));
+        Console.WriteLine(Convert.ToString(5, 2));
     }
 
     /*public static string decompose(long n)
@@ -182,7 +182,15 @@ internal class Program
 
         return output;
     } */ //Задача на получение строки с датой из секунд а-ля "лет, дней, часов, минут, секунд"
-    //Это просто какой-то пиздец а не вывод, или кучу ифов продолжай писать, или покумекай с массивами и кортежами, может перечисления помогут, авось, еще исправь косяк с выводом нуля 
-    //Нихуя не массив ни кортеж кстати не помог, помог только храни его бог чат гпт
+         //Это просто какой-то пиздец а не вывод, или кучу ифов продолжай писать, или покумекай с массивами и кортежами, может перечисления помогут, авось, еще исправь косяк с выводом нуля 
+         //Нихуя не массив ни кортеж кстати не помог, помог только храни его бог чат гпт
+
+    /*public static string Add(string a, string b)
+    {
+        BigInteger x = BigInteger.Parse(a);
+        BigInteger y = BigInteger.Parse(b);
+        return (x + y).ToString(); // Fix this!
+    }*/ //Легчайшая ката 4 уровня
+
 
 }
