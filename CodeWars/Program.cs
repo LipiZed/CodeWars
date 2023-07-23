@@ -10,7 +10,7 @@ internal class Program
 {
     private static void Main(string[] args)
     {
-        Console.WriteLine(Convert.ToString(5, 2));
+        Console.WriteLine(StripComments("apples, pears # and bananas\ngrapes\nbananas !apples", new string[] { "#", "!" }));
     }
 
     /*public static string decompose(long n)
@@ -191,6 +191,36 @@ internal class Program
         BigInteger y = BigInteger.Parse(b);
         return (x + y).ToString(); // Fix this!
     }*/ //Легчайшая ката 4 уровня
+
+    public static string StripComments(string text, string[] commentSymbols)
+    {
+        var strings = text.Split('\n');
+        for (int i = 0; i < strings.Length; i++)
+        {
+            int min_index = strings[i].Length;
+            for (int j = 0; j < commentSymbols.Length; j++)
+            {
+                if (strings[i].Contains(commentSymbols[j]))
+                {
+                    int index = strings[i].IndexOf(commentSymbols[j]);
+                    if (index < min_index)
+                    {
+                        min_index = index;
+                    }
+                    
+                }
+                
+            }
+            strings[i] = strings[i].Substring(0, min_index);
+            strings[i] = strings[i].TrimEnd(' ');
+        }
+        string result = string.Empty;
+        foreach (var item in strings)
+        {
+            result += item + "\n";
+        }
+        return result.Substring(0, result.Length - 1);
+    }
 
 
 }
