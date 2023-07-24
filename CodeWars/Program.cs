@@ -4,13 +4,14 @@ using System.Linq;
 using System.Numerics;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Xml.XPath;
 
 internal class Program
 {
     private static void Main(string[] args)
     {
-        Console.WriteLine(StripComments("apples, pears # and bananas\ngrapes\nbananas !apples", new string[] { "#", "!" }));
+        Console.WriteLine(Fib(-11));
     }
 
     /*public static string decompose(long n)
@@ -41,7 +42,7 @@ internal class Program
             result += item.ToString() + " ";
         }
         return result.TrimEnd();
-    }*/ //Задача на разложение числа на сумму квадратов без повторений
+    }*/ // НЕ РЕШЕНО!!! Задача на разложение числа на сумму квадратов без повторений
     /*public static string FirstNonRepeatingLetter(string s)
     {
         List<char> d = new List<char>();
@@ -65,7 +66,7 @@ internal class Program
             }
         }
         return string.Empty;
-    }*/ //Задача на поиск первой неповторяющейся буквы
+    }*/ //РЕШЕНО!!! Задача на поиск первой неповторяющейся буквы
     /*public static BigInteger perimeter(BigInteger n)
     {
         var fib = new BigInteger[(int)(n + 1)];
@@ -81,7 +82,7 @@ internal class Program
             res += item;
         }
         return res * 4;
-    }*/ //Периметр фигуры, построенной из квадратов со стороной как числа фибоначи
+    }*/ // РЕШЕНО!!! Периметр фигуры, построенной из квадратов со стороной как числа фибоначи
 
     /*
     public static string formatDuration(int seconds) 
@@ -181,7 +182,7 @@ internal class Program
         }
 
         return output;
-    } */ //Задача на получение строки с датой из секунд а-ля "лет, дней, часов, минут, секунд"
+    } */ // РЕШЕНО!!! Задача на получение строки с датой из секунд а-ля "лет, дней, часов, минут, секунд"
          //Это просто какой-то пиздец а не вывод, или кучу ифов продолжай писать, или покумекай с массивами и кортежами, может перечисления помогут, авось, еще исправь косяк с выводом нуля 
          //Нихуя не массив ни кортеж кстати не помог, помог только храни его бог чат гпт
 
@@ -190,9 +191,9 @@ internal class Program
         BigInteger x = BigInteger.Parse(a);
         BigInteger y = BigInteger.Parse(b);
         return (x + y).ToString(); // Fix this!
-    }*/ //Легчайшая ката 4 уровня
+    }*/ // РЕШЕНО!!! Легчайшая ката 4 уровня 
 
-    public static string StripComments(string text, string[] commentSymbols)
+    /*public static string StripComments(string text, string[] commentSymbols)
     {
         var strings = text.Split('\n');
         for (int i = 0; i < strings.Length; i++)
@@ -220,7 +221,101 @@ internal class Program
             result += item + "\n";
         }
         return result.Substring(0, result.Length - 1);
+    }*/ // РЕШЕНО!!! Вот эти каты конченые, в которых линку за 3 строки, я ебал, надо учить линку
+
+    /*public static BigInteger fib(int n)
+    {
+        if (n == 0)
+            return 0;
+
+        int sign = (n < 0 && n % 2 == 0) ? -1 : 1;
+        n = Math.Abs(n);
+        BigInteger[][] F = Pow(new BigInteger[][] { new BigInteger[] { 1, 1 }, new BigInteger[] { 1, 0 } }, n, IdentityMatrix(2), MatrixMultiply);
+        return sign * F[0][1];
     }
 
+    static BigInteger[][] Pow(BigInteger[][] x, int n, BigInteger[][] I, Func<BigInteger[][], BigInteger[][], BigInteger[][]> mult)
+    {
+        if (n == 0)
+            return I;
+        else if (n == 1)
+            return x;
+        else if (n < 0)
+        {
+            BigInteger[][] y = Pow(x, -n, I, mult);
+            y = InverseMatrix(y);
+            return (n % 2 == 0) ? y : MatrixMultiply(y, x);
+        }
+        else
+        {
+            BigInteger[][] y = Pow(x, n / 2, I, mult);
+            y = MatrixMultiply(y, y);
+            if (n % 2 == 1)
+                y = MatrixMultiply(x, y);
+            return y;
+        }
+    }
+
+    static BigInteger[][] IdentityMatrix(int n)
+    {
+        BigInteger[][] matrix = new BigInteger[n][];
+        for (int i = 0; i < n; i++)
+        {
+            matrix[i] = new BigInteger[n];
+            for (int j = 0; j < n; j++)
+            {
+                if (i == j)
+                    matrix[i][j] = 1;
+                else
+                    matrix[i][j] = 0;
+            }
+        }
+        return matrix;
+    }
+
+    static BigInteger[][] MatrixMultiply(BigInteger[][] A, BigInteger[][] B)
+    {
+        int n = A.Length;
+        int m = B[0].Length;
+        BigInteger[][] result = new BigInteger[n][];
+        for (int i = 0; i < n; i++)
+        {
+            result[i] = new BigInteger[m];
+            for (int j = 0; j < m; j++)
+            {
+                result[i][j] = 0;
+                for (int k = 0; k < B.Length; k++)
+                {
+                    result[i][j] += A[i][k] * B[k][j];
+                }
+            }
+        }
+        return result;
+    }
+
+    static BigInteger[][] InverseMatrix(BigInteger[][] matrix)
+    {
+        BigInteger det = matrix[0][0] * matrix[1][1] - matrix[0][1] * matrix[1][0];
+        BigInteger[][] inverse = new BigInteger[2][];
+        inverse[0] = new BigInteger[] { matrix[1][1], -matrix[0][1] };
+        inverse[1] = new BigInteger[] { -matrix[1][0], matrix[0][0] };
+        for (int i = 0; i < 2; i++)
+        {
+            for (int j = 0; j < 2; j++)
+            {
+                inverse[i][j] /= det;
+            }
+        }
+        return inverse;
+    }
+    */ // РЕШЕНО!!! Быстрейший способ вычисления чисел Фибоначчи, работает и с отрицательными значениями
+
+
+    public static List<string> Top3(string s)
+    {
+        string[] splitString = s.Split(' ');
+        var arrayCount = splitString.(a => a);
+        var result = arrayCount.ToList();
+    }
 
 }
