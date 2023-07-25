@@ -14,11 +14,9 @@ internal class Program
 {
     private static void Main(string[] args)
     {
-        var x = Top3("  '''  ");
-        Console.WriteLine(x.Count());
-        foreach (var item in x)
+        for (int i = 0; i < 10000; i++)
         {
-            Console.WriteLine(item);
+            Console.WriteLine(i);
         }
     }
 
@@ -50,9 +48,10 @@ internal class Program
             result += item.ToString() + " ";
         }
         return result.TrimEnd();
-    }*/ // НЕ РЕШЕНО!!! Задача на разложение числа на сумму квадратов без повторений
+    }*/ // НЕ РЕШЕНО!!! 4 уровень. Задача на разложение числа на сумму квадратов без повторений
     /*public static string FirstNonRepeatingLetter(string s)
     {
+        //Уже поздно не понимаю че я тут наговнокодил, вроде как беру чар, меняю его на точку и если такой же чар есть в строке то значит идем далее, и все
         List<char> d = new List<char>();
         string lower_string = s.ToLower();
         foreach (var item in lower_string)
@@ -74,9 +73,11 @@ internal class Program
             }
         }
         return string.Empty;
-    }*/ //РЕШЕНО!!! Задача на поиск первой неповторяющейся буквы
+    }*/ //РЕШЕНО!!! 5 уровень. Задача на поиск первой неповторяющейся буквы
     /*public static BigInteger perimeter(BigInteger n)
     {
+        Решение туповатое, теперь уже понимаю можно было бы нахуй и без массива обойтись, ну оно работает и по времени прошло, значит нормально
+        Считаю числа фибоначчи и кидаю их в массив
         var fib = new BigInteger[(int)(n + 1)];
         BigInteger res = 0;
         fib[0] = 1;
@@ -85,16 +86,19 @@ internal class Program
         {
             fib[i] = fib[i - 1] + fib[i - 2];
         }
+        Суммирую все числа фибоначчи из массива
         foreach (var item in fib)
         {
             res += item;
         }
+        Умножаю сумму на 4
         return res * 4;
-    }*/ // РЕШЕНО!!! Периметр фигуры, построенной из квадратов со стороной как числа фибоначи
+    }*/ // РЕШЕНО!!! 5 уровень. Периметр фигуры, построенной из квадратов со стороной как числа фибоначи
 
     /*
     public static string formatDuration(int seconds) 
     {
+        //Ну тут в целом тупейшие вычисления для которых и комментарии не нужны, в целом по названиям переменных можно все понять
         if (seconds < 0)
         {
             return "Bruh";
@@ -190,7 +194,7 @@ internal class Program
         }
 
         return output;
-    } */ // РЕШЕНО!!! Задача на получение строки с датой из секунд а-ля "лет, дней, часов, минут, секунд"
+    } */ // РЕШЕНО!!! 4 уровень. Задача на получение строки с датой из секунд а-ля "лет, дней, часов, минут, секунд"
          //Это просто какой-то пиздец а не вывод, или кучу ифов продолжай писать, или покумекай с массивами и кортежами, может перечисления помогут, авось, еще исправь косяк с выводом нуля 
          //Нихуя не массив ни кортеж кстати не помог, помог только храни его бог чат гпт
 
@@ -199,11 +203,12 @@ internal class Program
         BigInteger x = BigInteger.Parse(a);
         BigInteger y = BigInteger.Parse(b);
         return (x + y).ToString(); // Fix this!
-    }*/ // РЕШЕНО!!! Легчайшая ката 4 уровня 
-
+    }*/ // РЕШЕНО!!! 4 уровень. Сумма огромных чисел
     /*public static string StripComments(string text, string[] commentSymbols)
     {
+        //Разбиваю строку на подстроки по переносам
         var strings = text.Split('\n');
+        // Этими циклами ищу индексы данных символов в строке, и выбираю минимальный индекс
         for (int i = 0; i < strings.Length; i++)
         {
             int min_index = strings[i].Length;
@@ -220,19 +225,24 @@ internal class Program
                 }
                 
             }
+            //Сношу все что идет после этого индекса вместе с ним, и убираю лишние пробелы которые могли появиться
             strings[i] = strings[i].Substring(0, min_index);
             strings[i] = strings[i].TrimEnd(' ');
         }
+        //Восстанавливаю изначальный вид строки добавляя переносы
         string result = string.Empty;
         foreach (var item in strings)
         {
             result += item + "\n";
         }
+        //Тут убираю лишний перенос в конце
         return result.Substring(0, result.Length - 1);
-    }*/ // РЕШЕНО!!! Вот эти каты конченые, в которых линку за 3 строки, я ебал, надо учить линку
+    }*/ // РЕШЕНО!!! 4 уровень. Ката по убиранию из строки всего после конченых данных символов. Вот эти каты конченые, в которых линку за 3 строки, я ебал, надо учить линку
 
     /*public static BigInteger fib(int n)
     {
+        //Тут комментариев не будет так как я сам не ебу как оно работает, эта проклятая математика меня чуть не убила а еще закодить её это вообще пиздец
+        //Так что спиздил все что мог, откуда мог, оно замечательно работает я доволен
         if (n == 0)
             return 0;
 
@@ -316,34 +326,74 @@ internal class Program
         }
         return inverse;
     }
-    */ // РЕШЕНО!!! Быстрейший способ вычисления чисел Фибоначчи, работает и с отрицательными значениями
+    */ // РЕШЕНО!!! 3 уровень. Быстрейший способ вычисления чисел Фибоначчи, работает и с отрицательными значениями
 
 
-    public static List<string> Top3(string s)
+    /*public static List<string> Top3(string s)
     {
-        if (string.IsNullOrWhiteSpace(s))
+        if (string.IsNullOrWhiteSpace(s)) //Если вводят пустую строку, то выводить пустой список, но тут я обсерился и вывожу список с 3мя элементами, но решение приняло
         {
             List<string> result = new List<string> { " ", " ", " " };
             return result;
         }
+        //Удаляю все возможные и невозможные символы из строки т.к они по заданию считаются пустыми местами
         s = s.Replace('/', ' ').Replace('\\', ' ').Replace('#', ' ').Replace('.', ' ').Replace(',', ' ').Replace('"', ' ').Replace('-', ' ').Replace('!', ' ').Replace('_', ' ').Replace(';', ' ').Replace('?', ' ').Replace('@', ' ').Replace('(', ' ').Replace(')', ' ').Replace(':', ' ').Replace("'''", " ").Replace(" \'", " ");
-
         List<string> list = new List<string>();
+        //Жестрочайше пизжу код со стаковерфлоу который мне делает словарик из слов по частоте по убыванию
         var words = s
         .Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries)
         .GroupBy(w => w.ToLower())
         .OrderByDescending(g => g.Count());
+        //Из этого словарика переношу все в список по ключу
         foreach (var word in words)
         {
             list.Add(word.Key);
         }
+        //Убираю лишние элементы из списка до тех пор пока его длина не будет меньшле или равна 3м
         while (list.Count() > 3)
         {
             list.Remove(list.Last());
         }
+        //Удаляю лишние символы которые вдруг что могли появиться
         list.Remove("\'");
         list.Remove(" ");
         return list;
+    }*/ //РЕШЕНО!!!! 4 уровень. Ката по поиску 3х наиболее часто входящий слов в строку.
+
+
+    //Надо бы начать писать более полные описания алгоритмов которые я делаю, чтобы потом если что подглядывать, сейчас этим и займусь.
+    //УПД: допилил комменты
+
+
+    public static uint SqCubRevPrime(int n)
+    {
+        List<BigInteger> result = new List<BigInteger>();
+        for (uint i = 0; i < int.MaxValue; i++)
+        {
+           
+            if (IsPrime(BigInteger.Parse(Math.Pow(i, 2).ToString().Reverse().ToArray())) && IsPrime(BigInteger.Parse(Math.Pow(i, 3).ToString().Reverse().ToArray())))
+            {
+                result.Add(i);
+                if (result.Count == n)
+                {
+                    return (uint)result.Last();
+                }
+            }
+           
+            
+        }
+        return 0;
     }
 
+    static bool IsPrime(BigInteger number)
+    {
+        if (number < 2) return false;
+        if (number % 2 == 0) return (number == 2);
+        int root = (int)Math.Sqrt((double)number);
+        for (int i = 3; i <= root; i += 2)
+        {
+            if (number % i == 0) return false;
+        }
+        return true;
+    }
 }
