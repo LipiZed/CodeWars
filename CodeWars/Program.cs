@@ -1,17 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Numerics;
+using System.Security.Cryptography;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Threading;
 using System.Xml.XPath;
 
 internal class Program
 {
     private static void Main(string[] args)
     {
-        Console.WriteLine(Fib(-11));
+        var x = Top3("  '''  ");
+        Console.WriteLine(x.Count());
+        foreach (var item in x)
+        {
+            Console.WriteLine(item);
+        }
     }
 
     /*public static string decompose(long n)
@@ -313,9 +321,29 @@ internal class Program
 
     public static List<string> Top3(string s)
     {
-        string[] splitString = s.Split(' ');
-        var arrayCount = splitString.(a => a);
-        var result = arrayCount.ToList();
+        if (string.IsNullOrWhiteSpace(s))
+        {
+            List<string> result = new List<string> { " ", " ", " " };
+            return result;
+        }
+        s = s.Replace('/', ' ').Replace('\\', ' ').Replace('#', ' ').Replace('.', ' ').Replace(',', ' ').Replace('"', ' ').Replace('-', ' ').Replace('!', ' ').Replace('_', ' ').Replace(';', ' ').Replace('?', ' ').Replace('@', ' ').Replace('(', ' ').Replace(')', ' ').Replace(':', ' ').Replace("'''", " ").Replace(" \'", " ");
+
+        List<string> list = new List<string>();
+        var words = s
+        .Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries)
+        .GroupBy(w => w.ToLower())
+        .OrderByDescending(g => g.Count());
+        foreach (var word in words)
+        {
+            list.Add(word.Key);
+        }
+        while (list.Count() > 3)
+        {
+            list.Remove(list.Last());
+        }
+        list.Remove("\'");
+        list.Remove(" ");
+        return list;
     }
 
 }
