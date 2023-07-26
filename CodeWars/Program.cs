@@ -15,9 +15,9 @@ internal class Program
 {
     private static void Main(string[] args)
     {
-        DateTime x = DateTime.Now;
-        Console.WriteLine(SqCubRevPrime(250));
-        System.Console.WriteLine(DateTime.Now.Subtract(x));
+        var x = DateTime.Now;
+        SqCubRevPrime(250);
+        Console.WriteLine(DateTime.Now.Subtract(x));
     }
 
     /*public static string decompose(long n)
@@ -370,8 +370,11 @@ internal class Program
         List<uint> result = new();
         for (uint i = 0; i < int.MaxValue; i++)
         {
-           
-            if (IsPrime(BigInteger.Parse(Math.Pow(i, 2).ToString().Reverse().ToArray())) && IsPrime(BigInteger.Parse(Math.Pow(i, 3).ToString().Reverse().ToArray())))
+            uint x = i * i;
+            ulong x1 = x * i;
+            x = uint.Parse(x.ToString().Reverse().ToArray());
+            x1 = ulong.Parse(x1.ToString().Reverse().ToArray());
+            if (IsPrime(x) && IsPrime(x1))
             {
                 result.Add(i);
                 if (result.Count == n)
@@ -379,20 +382,18 @@ internal class Program
                     return result.Last();
                 }
             }
-
-
         }
         return 0;
     }
 
-    static bool IsPrime(BigInteger number)
+    static bool IsPrime(ulong number)
     {
         if (number < 2) return false;
         if (number % 2 == 0) return (number == 2);
         int root = (int)Math.Sqrt((double)number);
         for (int i = 3; i <= root; i += 2)
         {
-            if (number % i == 0) return false;
+            if ((long)number % i == 0) return false;
         }
         return true;
     }
