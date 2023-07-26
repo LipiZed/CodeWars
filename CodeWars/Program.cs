@@ -10,14 +10,14 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using System.Xml.XPath;
 
+
 internal class Program
 {
     private static void Main(string[] args)
     {
-        for (int i = 0; i < 10000; i++)
-        {
-            Console.WriteLine(i);
-        }
+        DateTime x = DateTime.Now;
+        Console.WriteLine(SqCubRevPrime(250));
+        System.Console.WriteLine(DateTime.Now.Subtract(x));
     }
 
     /*public static string decompose(long n)
@@ -367,7 +367,7 @@ internal class Program
 
     public static uint SqCubRevPrime(int n)
     {
-        List<BigInteger> result = new List<BigInteger>();
+        List<uint> result = new();
         for (uint i = 0; i < int.MaxValue; i++)
         {
            
@@ -376,11 +376,11 @@ internal class Program
                 result.Add(i);
                 if (result.Count == n)
                 {
-                    return (uint)result.Last();
+                    return result.Last();
                 }
             }
-           
-            
+
+
         }
         return 0;
     }
