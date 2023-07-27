@@ -16,7 +16,10 @@ internal class Program
     private static void Main(string[] args)
     {
         var x = DateTime.Now;
-        SqCubRevPrime(250);
+        for (int i = 0; i < 250; i++)
+        {
+            Console.WriteLine(SqCubRevPrime(i));
+        }
         Console.WriteLine(DateTime.Now.Subtract(x));
     }
 
@@ -364,37 +367,66 @@ internal class Program
     //Надо бы начать писать более полные описания алгоритмов которые я делаю, чтобы потом если что подглядывать, сейчас этим и займусь.
     //УПД: допилил комменты
 
+    private static Dictionary<int, List<uint>> memoizedResults = new Dictionary<int, List<uint>>();
 
     public static uint SqCubRevPrime(int n)
     {
-        List<uint> result = new();
-        for (uint i = 0; i < int.MaxValue; i++)
+        List<uint> result = new List<uint>();
+        if (n == 0) 
         {
-            uint x = i * i;
+            result.Add(0);
+            memoizedResults[n] = result;
+            return 0;
+        }
+        if (n == 1)
+        {
+            result.Add(89);
+            memoizedResults[n] = result;
+            return 89;
+        }
+        uint y = 0;
+        if (memoizedResults.ContainsKey(n - 1))
+        {
+            result = memoizedResults[n - 1];
+            y = memoizedResults[n - 1].Last();
+        }
+        uint num = 0;
+        for (uint i = y + 1 ; i < int.MaxValue; i++)
+        {
+            ulong x = i * i;
             ulong x1 = x * i;
-            x = uint.Parse(x.ToString().Reverse().ToArray());
+            x = ulong.Parse(x.ToString().Reverse().ToArray());
             x1 = ulong.Parse(x1.ToString().Reverse().ToArray());
             if (IsPrime(x) && IsPrime(x1))
             {
                 result.Add(i);
                 if (result.Count == n)
                 {
-                    return result.Last();
+                    num = result.Last();
+                    break;
                 }
             }
         }
-        return 0;
+        memoizedResults[n] = result;
+        return num;
     }
 
     static bool IsPrime(ulong number)
     {
         if (number < 2) return false;
-        if (number % 2 == 0) return (number == 2);
-        int root = (int)Math.Sqrt((double)number);
-        for (int i = 3; i <= root; i += 2)
+        if (number == 2 || number == 3) return true;
+        if (number % 2 == 0 || number % 3 == 0) return false;
+
+        ulong i = 5;
+        ulong w = 2;
+
+        while (i * i <= number)
         {
-            if ((long)number % i == 0) return false;
+            if (number % i == 0) return false;
+            i += w;
+            w = 6 - w;
         }
+
         return true;
     }
 }
