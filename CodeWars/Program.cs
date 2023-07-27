@@ -16,11 +16,10 @@ internal class Program
     private static void Main(string[] args)
     {
         var x = DateTime.Now;
-        for (int i = 0; i < 250; i++)
-        {
-            Console.WriteLine(SqCubRevPrime(i));
-        }
-        Console.WriteLine(DateTime.Now.Subtract(x));
+        Console.WriteLine(SqCubRevPrime(32));
+        Console.WriteLine(SqCubRevPrime(33));
+        Console.WriteLine(SqCubRevPrime(1));
+
     }
 
     /*public static string decompose(long n)
@@ -371,27 +370,28 @@ internal class Program
 
     public static uint SqCubRevPrime(int n)
     {
+        if (memoizedResults.ContainsKey(n))
+        {
+            return memoizedResults[1][n - 1];
+        }
+        for (int i = 1; i < 251; i++)
+        {
+            UpTo250(i);     
+        }
+        uint num = memoizedResults[1][n - 1];
+        return num;
+    }
+    public static uint UpTo250(int n)
+    {
         List<uint> result = new List<uint>();
-        if (n == 0) 
+        uint counter = 0;
+        if (memoizedResults.Count != 0)
         {
-            result.Add(0);
-            memoizedResults[n] = result;
-            return 0;
-        }
-        if (n == 1)
-        {
-            result.Add(89);
-            memoizedResults[n] = result;
-            return 89;
-        }
-        uint y = 0;
-        if (memoizedResults.ContainsKey(n - 1))
-        {
-            result = memoizedResults[n - 1];
-            y = memoizedResults[n - 1].Last();
+            result = memoizedResults.Values.Last();
+            counter = result.Last() + 1;
         }
         uint num = 0;
-        for (uint i = y + 1 ; i < int.MaxValue; i++)
+        for (uint i = counter; i < int.MaxValue; i++)
         {
             ulong x = i * i;
             ulong x1 = x * i;
@@ -407,7 +407,7 @@ internal class Program
                 }
             }
         }
-        memoizedResults[n] = result;
+        memoizedResults.Add(n, result);
         return num;
     }
 
