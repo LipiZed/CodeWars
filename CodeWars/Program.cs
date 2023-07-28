@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Numerics;
 using System.Security.Cryptography;
 using System.Security.Cryptography.X509Certificates;
@@ -15,8 +16,8 @@ internal class Program
 {
     private static void Main(string[] args)
     {
-        
 
+        Console.WriteLine(calculate("1 + 23/(23 +  68)"));
     }
 
     /*public static string decompose(long n)
@@ -47,7 +48,7 @@ internal class Program
             result += item.ToString() + " ";
         }
         return result.TrimEnd();
-    }*/ // НЕ РЕШЕНО!!! 4 уровень. Задача на разложение числа на сумму квадратов без повторений
+    }*/  // НЕ РЕШЕНО!!! 4 уровень. Задача на разложение числа на сумму квадратов без повторений
     /*public static string FirstNonRepeatingLetter(string s)
     {
         //Уже поздно не понимаю че я тут наговнокодил, вроде как беру чар, меняю его на точку и если такой же чар есть в строке то значит идем далее, и все
@@ -455,7 +456,121 @@ internal class Program
             return BigInteger.Parse(a).ToString();
         }
         return (BigInteger.Parse(a) + BigInteger.Parse(b).ToString()).ToString();
-    }*/ //РЕШЕНО!!! 4 уровень. Уже решал такое, чисто фарманул очков, да считерил, но похуй, в условиях нет запрета
+    }*/
+    //РЕШЕНО!!! 4 уровень. Уже решал такое, чисто фарманул очков, да считерил, но похуй, в условиях нет запрета
+
+
+    private static int Precedence(char op)
+    {
+        if (op == '^')
+            return 3;
+        else if (op == '*' || op == '/')
+            return 2;
+        else if (op == '+' || op == '-')
+            return 1;
+        else
+            return 0;
+    }
+
+    private static List<string> InfixToPostfix(string expression)
+    {
+        List<string> postfix = new List<string>();
+        Stack<char> operatorStack = new Stack<char>();
+
+        int i = 0;
+        while (i < expression.Length)
+        {
+            char c = expression[i];
+
+            if (char.IsDigit(c))
+            {
+                int j = i + 1;
+                while (j < expression.Length && char.IsDigit(expression[j]))
+                    j++;
+                postfix.Add(expression.Substring(i, j - i));
+                i = j - 1;
+            }
+            else if (c == '(')
+            {
+                operatorStack.Push(c);
+            }
+            else if (c == ')')
+            {
+                while (operatorStack.Count > 0 && operatorStack.Peek() != '(')
+                {
+                    postfix.Add(operatorStack.Pop().ToString());
+                }
+                operatorStack.Pop(); // Discard the '('
+            }
+            else if (IsOperator(c))
+            {
+                while (operatorStack.Count > 0 && Precedence(operatorStack.Peek()) >= Precedence(c))
+                {
+                    postfix.Add(operatorStack.Pop().ToString());
+                }
+                operatorStack.Push(c);
+            }
+
+            i++;
+        }
+
+        while (operatorStack.Count > 0)
+        {
+            postfix.Add(operatorStack.Pop().ToString());
+        }
+
+        return postfix;
+    }
+
+    private static bool IsOperator(char c)
+    {
+        return c == '+' || c == '-' || c == '*' || c == '/' || c == '^';
+    }
+
+    private static double EvaluatePostfix(List<string> postfix)
+    {
+        Stack<double> operandStack = new Stack<double>();
+
+        foreach (string token in postfix)
+        {
+            if (double.TryParse(token, out double number))
+            {
+                operandStack.Push(number);
+            }
+            else if (IsOperator(token[0]))
+            {
+                double b = operandStack.Pop();
+                double a = operandStack.Pop();
+
+                switch (token[0])
+                {
+                    case '+':
+                        operandStack.Push(a + b);
+                        break;
+                    case '-':
+                        operandStack.Push(a - b);
+                        break;
+                    case '*':
+                        operandStack.Push(a * b);
+                        break;
+                    case '/':
+                        operandStack.Push(a / b);
+                        break;
+                    case '^':
+                        operandStack.Push(Math.Pow(a, b));
+                        break;
+                }
+            }
+        }
+
+        return operandStack.Pop();
+    }
+    public static double calculate(string s)
+    {
+        s = s.Replace(" ", "");
+        List<string> postfix = InfixToPostfix(s);
+        return EvaluatePostfix(postfix);
+    }
 
 
 } 
