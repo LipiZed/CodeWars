@@ -9,6 +9,7 @@ using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Xml.XPath;
 
 
@@ -16,8 +17,8 @@ internal class Program
 {
     private static void Main(string[] args)
     {
-
-        Console.WriteLine(calculate("1 + 23/(23 +  68)"));
+       
+        Console.WriteLine(CountBits(4));
     }
 
     /*public static string decompose(long n)
@@ -459,7 +460,7 @@ internal class Program
     }*/
     //РЕШЕНО!!! 4 уровень. Уже решал такое, чисто фарманул очков, да считерил, но похуй, в условиях нет запрета
 
-
+    /*
     private static int Precedence(char op)
     {
         if (op == '^')
@@ -572,5 +573,28 @@ internal class Program
         return EvaluatePostfix(postfix);
     }
 
+    */ //РАЗОБРАТЬ РЕШЕНИЕ!!! 3 уровень. строку в вычисление например: "1 + 3 * 5" = 16
 
+
+    /*public static string Disemvowel(string str)
+    {
+        return str.Replace("a", "").Replace("A", "").Replace("e", "").Replace("E", "").Replace("I", "").Replace("i", "").Replace("O", "").Replace("o", "").Replace("U", "").Replace("u", "");
+    }
+    */ //РЕШЕНО!!! 7 уровень, не хочу за сложное браться, так что пока так, иду по рандомным а не ранк ап
+
+    public static int CountBits(int n)
+    {
+        int mask = 0b00000000000000000000000000000001;
+        int count = 0;
+        while (n != 0) 
+        {
+            if ((mask & n) == 1)
+            {
+                count++;
+                
+            }
+            n = n >> 1;
+        }
+        return count;
+    }
 } 
