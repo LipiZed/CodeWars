@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Drawing;
+using System.IO;
+using System.IO.Pipes;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Numerics;
@@ -17,8 +20,13 @@ internal class Program
 {
     private static void Main(string[] args)
     {
-       
-        Console.WriteLine(CountBits(4));
+        for (int i = 100000; i < 12345678900000000; i++)
+        {
+            if (IsUpsideDown(i.ToString()))
+            {
+                Console.WriteLine(i);
+            }
+        }
     }
 
     /*public static string decompose(long n)
@@ -582,8 +590,10 @@ internal class Program
     }
     */ //РЕШЕНО!!! 7 уровень, не хочу за сложное браться, так что пока так, иду по рандомным а не ранк ап
 
-    public static int CountBits(int n)
+
+    /*public static int CountBits(int n)
     {
+        // Tried to do it the funny way :D
         int mask = 0b00000000000000000000000000000001;
         int count = 0;
         while (n != 0) 
@@ -596,5 +606,142 @@ internal class Program
             n = n >> 1;
         }
         return count;
+    }*/ //РЕШЕНО!!! Уже решал, счет битов в числе
+
+
+    //Переделваю калькулятор:
+    /*Переделал
+    private static int Precedence(char op)
+    {
+        if (op == '^')
+            return 3;
+        else if (op == '*' || op == '/')
+            return 2;
+        else if (op == '+' || op == '-')
+            return 1;
+        else
+            return 0;
     }
-} 
+
+    public static List<string> ToPostfix(string s)
+    {
+        Stack<char> stack = new Stack<char>();
+        List<string> postfix = new List<string>();
+        for (int i = 0; i < s.Length; i++)
+        {
+            if (char.IsDigit(s[i]))
+            {
+                int j = i + 1;
+                while (j < s.Length && (char.IsDigit(s[j]) || s[j] == '.'))
+                    j++;
+                postfix.Add(s.Substring(i, j - i)); 
+                i = j - 1; 
+            }
+            else if (s[i] == '(')
+            {
+                stack.Push(s[i]);
+            }
+            else if (s[i] == ')')
+            {
+                while (stack.Count > 0 && stack.Peek() != '(')
+                {
+                    postfix.Add(stack.Pop().ToString());
+                }
+                stack.Pop();
+            }
+            else if (s[i] == '+' || s[i] == '-' || s[i] == '*' || s[i] == '/' || s[i] == '^')
+            {
+                while (stack.Count() > 0 && Precedence(stack.Peek()) >= Precedence(s[i]))
+                {
+                      postfix.Add(stack.Pop().ToString());
+                }
+                stack.Push(s[i]);
+            }
+            
+            
+        }
+        while (stack.Count > 0)
+        {
+            postfix.Add(stack.Pop().ToString());
+        }
+        return postfix;
+    }
+    private static double EvaluatePostfix(List<string> postfix)
+    {
+        Stack<double> operandStack = new Stack<double>();
+
+        foreach (string token in postfix)
+        {
+            if (double.TryParse(token, out double number))
+            {
+                operandStack.Push(number);
+            }
+            else if (token[0] == '+' || token[0] == '-' || token[0] == '*' || token[0] == '/' || token[0] == '^')
+            {
+                double b = operandStack.Pop();
+                double a = operandStack.Pop();
+                switch (token[0])
+                {
+                    case '+':
+                        operandStack.Push(a + b);
+                        break;
+                    case '-':
+                        operandStack.Push(a - b);
+                        break;
+                    case '*':
+                        operandStack.Push(a * b);
+                        break;
+                    case '/':
+                        operandStack.Push(a / b);
+                        break;
+                    case '^':
+                        operandStack.Push(Math.Pow(a, b));
+                        break;
+                }
+            }
+        }
+
+        return operandStack.Pop();
+    }
+
+
+    public static double calculate(string s)
+    {
+        var x = ToPostfix(s);
+        return EvaluatePostfix(x);
+    }
+    */ //Результатом в целом доволен
+
+    public static double UpsideDown(string x, string y)
+    {
+        int count = 0;
+        for (long i = long.Parse(x); i <= long.Parse(y); i++)
+        {
+            if (IsUpsideDown(i.ToString()))
+            {
+                count++;
+            }
+        }
+        return count;
+    }
+    public static bool IsUpsideDown(string num)
+    {
+        if (num.Contains("2") || num.Contains("3") || num.Contains("4") || num.Contains("5") || num.Contains("7"))
+        {
+            return false;
+        }
+
+        for (int left = 0, right = num.Length - 1; left <= right; left++, right--)
+        {
+            if ((num[left] == num[right] && num[left] != '6' && num[left] != '9') || (num[left] == '6' && num[right] == '9') || (num[left] == '9' && num[right] == '6'))
+            {
+                continue;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+}
