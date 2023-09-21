@@ -20,13 +20,8 @@ internal class Program
 {
     private static void Main(string[] args)
     {
-        for (int i = 100000; i < 12345678900000000; i++)
-        {
-            if (IsUpsideDown(i.ToString()))
-            {
-                Console.WriteLine(i);
-            }
-        }
+        SieveOfAtkin(1000000);
+        
     }
 
     /*public static string decompose(long n)
@@ -712,36 +707,117 @@ internal class Program
     }
     */ //Результатом в целом доволен
 
+
+    /* ПЕРЕВЕРТЫШ По хорошему бы закончить эту кату, но пока лень
     public static double UpsideDown(string x, string y)
     {
-        int count = 0;
-        for (long i = long.Parse(x); i <= long.Parse(y); i++)
+        double count = 0;
+        int first_current_num = 0;
+        int second_current_num = 0;
+        List<int> basics = new List<int> {0, 1, 8, 11, 69, 88, 96};
+        for (int i = 0; i < basics.Count; i++)
         {
-            if (IsUpsideDown(i.ToString()))
+            if (int.Parse(x) > basics[i])
+            {
+                first_current_num = basics[i + 1];
+                break;
+            }
+            else
+            {
+                first_current_num = 101;
+                second_current_num = 1001;
+                count++;
+            }
+        }
+        if (current_num < basics.Last())
+        {
+            for (int i = basics.IndexOf(current_num); i < basics.Count; i++)
             {
                 count++;
             }
         }
-        return count;
-    }
-    public static bool IsUpsideDown(string num)
-    {
-        if (num.Contains("2") || num.Contains("3") || num.Contains("4") || num.Contains("5") || num.Contains("7"))
+        else
         {
-            return false;
+            current_num = int.Parse("1" + current_num.ToString()  + "1");
+            if (current_num )
+            {
+
+            }
+        }
+        
+    }
+    */
+
+    /* public static IEnumerable<int> Stream()
+    {
+        List<int> result_list = new List<int>();
+        int limit = 10000000;
+        // 2 and 3 are known to be prime
+        if (limit > 2)
+            result_list.Add(2);
+
+        if (limit > 3)
+            result_list.Add(3);
+
+        // Initialise the sieve array with
+        // false values
+        bool[] sieve = new bool[limit + 1];
+
+        for (int i = 0; i <= limit; i++)
+            sieve[i] = false;
+
+        /* Mark sieve[n] is true if one of the
+        following is true:
+        a) n = (4*x*x)+(y*y) has odd number 
+           of solutions, i.e., there exist 
+           odd number of distinct pairs 
+           (x, y) that satisfy the equation 
+           and    n % 12 = 1 or n % 12 = 5.
+        b) n = (3*x*x)+(y*y) has odd number 
+           of solutions and n % 12 = 7
+        c) n = (3*x*x)-(y*y) has odd number 
+           of solutions, x > y and n % 12 = 11 
+        for (int x = 1; x * x <= limit; x++)
+        {
+            for (int y = 1; y * y <= limit; y++)
+            {
+
+                // Main part of Sieve of Atkin
+                int n = (4 * x * x) + (y * y);
+                if (n <= limit
+                    && (n % 12 == 1 || n % 12 == 5))
+
+                    sieve[n] ^= true;
+
+                n = (3 * x * x) + (y * y);
+                if (n <= limit && n % 12 == 7)
+                    sieve[n] ^= true;
+
+                n = (3 * x * x) - (y * y);
+                if (x > y && n <= limit
+                    && n % 12 == 11)
+                    sieve[n] ^= true;
+            }
         }
 
-        for (int left = 0, right = num.Length - 1; left <= right; left++, right--)
+        // Mark all multiples of squares as
+        // non-prime
+        for (int r = 5; r * r < limit; r++)
         {
-            if ((num[left] == num[right] && num[left] != '6' && num[left] != '9') || (num[left] == '6' && num[right] == '9') || (num[left] == '9' && num[right] == '6'))
+            if (sieve[r])
             {
-                continue;
-            }
-            else
-            {
-                return false;
+                for (int i = r * r; i < limit;
+                     i += r * r)
+                    sieve[i] = false;
             }
         }
-        return true;
-    }
+
+        // Print primes using sieve[]
+        for (int a = 5; a <= limit; a++)
+            if (sieve[a])
+                result_list.Add(a);
+        return result_list;
+    } */ // РЕШЕНО!!! 3 уровень, вывод миллионов простых чисел
+
+
 }
