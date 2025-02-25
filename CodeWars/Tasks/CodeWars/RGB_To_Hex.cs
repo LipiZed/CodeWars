@@ -10,11 +10,10 @@ namespace CodeWars.Tasks.CodeWars
     {
         public string Rgb(int r, int g, int b)
         {
-            if (r > 255) r = 255;
-            if (g > 255) g = 255;
-            if (b > 255) b = 255;
-
-            return Convert.ToString(r, 16).ToUpper() + Convert.ToString(g, 16).ToUpper() + Convert.ToString(b, 16).ToUpper();
+            r = Math.Clamp(r, 0, 255);
+            g = Math.Clamp(g, 0, 255);
+            b = Math.Clamp(b, 0, 255);
+            return Convert.ToString(r, 16).ToUpper().PadLeft(2, '0') + Convert.ToString(g, 16).ToUpper().PadLeft(2, '0') + Convert.ToString(b, 16).ToUpper().PadLeft(2, '0');
         }
     }
 }
