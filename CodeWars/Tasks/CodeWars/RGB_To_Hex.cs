@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace CodeWars.Tasks.CodeWars
+﻿namespace CodeWars.Tasks.CodeWars
 {
     public class RGB_To_Hex
     {
