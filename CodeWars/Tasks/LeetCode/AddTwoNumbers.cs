@@ -1,13 +1,16 @@
 using CodeWars.Data;
+using System.Numerics;
 
 namespace CodeWars.Tasks.LeetCode;
 
 public class AddTwoNumbers
 {
-    public int AddTwoNumbersResult(ListNode l1, ListNode l2)
+    public ListNode AddTwoNumbersResult(ListNode l1, ListNode l2)
     {
         string firstNumber = "";
         string secondNumber = "";
+    
+        // Собираем первое число
         while (true)
         {
             firstNumber += l1.val.ToString();
@@ -21,6 +24,7 @@ public class AddTwoNumbers
             }
         }
 
+        // Собираем второе число
         while (true)
         {
             secondNumber += l2.val.ToString();
@@ -33,10 +37,28 @@ public class AddTwoNumbers
                 l2 = l2.next;
             }
         }
-        int result_num = Convert.ToInt32(new string(firstNumber.Reverse().ToArray())) 
-                         + Convert.ToInt32(new string(secondNumber.Reverse().ToArray()));
-        string result = new string(result_num.ToString().Reverse().ToArray());
-        ListNode result_node = new ListNode();
-        return result_num;
+
+        // Конвертируем строки в BigInteger
+        BigInteger firstBigInt = BigInteger.Parse(new string(firstNumber.Reverse().ToArray()));
+        BigInteger secondBigInt = BigInteger.Parse(new string(secondNumber.Reverse().ToArray()));
+
+        // Складываем два числа
+        BigInteger resultNum = firstBigInt + secondBigInt;
+
+        // Преобразуем результат обратно в строку с развернутым порядком
+        string result = new string(resultNum.ToString().Reverse().ToArray());
+
+        // Создаем связанный список результата
+        ListNode resultNode = new ListNode(result[0] - '0'); // Первый символ преобразуем в число
+        ListNode current = resultNode;
+
+        for (int i = 1; i < result.Length; i++)
+        {
+            current.next = new ListNode(result[i] - '0'); // Создаем следующий узел с текущей цифрой
+            current = current.next; // Переходим к следующему узлу
+        }
+
+        return resultNode;
+
     }
 }
