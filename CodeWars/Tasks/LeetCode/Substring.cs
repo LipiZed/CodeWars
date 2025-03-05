@@ -4,33 +4,23 @@ public class Substring
 {
     public int LengthOfLongestSubstring(string s)
     {
-        if (String.IsNullOrEmpty(s))
+        var chars = new Dictionary<char, int>();
+        int max_count = 0;
+        for (int i = 0; i < s.Length;)
         {
-            return 0;
-        }
-        List<string> substrings = new List<string>();
-        string substring = "";
-        for (int i = 0; i < s.Length; i++)
-        {
-            for (int j = i; j < s.Length; j++)
+            if (chars.ContainsKey(s[i]))
             {
-                if (!substring.Contains(s[j]))
-                {
-                    substring += s[j];
-                }
-                else
-                {
-                    break;
-                }
+                i = chars[s[i]] + 1;
+                chars.Clear();
             }
-            substrings.Add(substring);
-            substring = "";
+            else
+            {
+                chars.Add(s[i], i);
+                i++;
+            }
         }
-
-        if (substrings.Max(substring => substring.Length) == 0)
-        {
-            return 1;
-        }
-        return substrings.Max(substring => substring.Length);
+        max_count = Math.Max(max_count, chars.Count());
+        return max_count;
     }
 }
+
